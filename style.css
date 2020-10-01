@@ -1,0 +1,120 @@
+body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #edfcb0;
+    color: #222;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor responsive */
+.container{
+    width: 700px;
+}
+
+@media (max-width: 768px){
+    .container{
+        width: 95%;
+    }
+}
+
+/*Estilos del acordeon (nada interesante por aqui)*/
+.accordion{width: 100%;}
+
+.title{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color:  #745437;
+}
+
+.accordion__title{ 
+    position: relative; /*Utilizo esto para luego posicionar la flechita del plegado, no se si será la manera más optima*/
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: #bae294;
+    text-decoration: none;
+    border-bottom: 1px solid  #745437;
+    transition: all 300ms;
+}
+
+.course__name{
+    width: 100%;
+    background-color: #5ab28e;
+    padding: 10px;
+    text-decoration: none;
+    color: #745437;
+    font-weight: bold;
+    transition: all 300ms
+}
+
+/*Aquí construyo las flechitas de plegado, que dirás: "podrias haber hecho solo una y rotarla", también es cierto, pero es que las aplico en una etiqueta 'a' que apunta a un enlace distinto cada una, para poder recoger el propio título del acordeón sin necesidad de abrir otro, me explico?
+
+Por cierto, has visto que chulo como lo hago solo con bordes? obviamente lo he visto de otro por internet jaja*/
+.course__more{
+    position: absolute;
+    top: 40%;
+    right: 30px;
+    border-top: 10px solid #745437;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transition: all 300ms;
+}
+
+.course__less{  
+    position: absolute;
+    top: 15%;
+    right: 30px;
+    border-bottom: 10px solid #edfcb0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transform: scale(0);
+    transition: all 300ms;
+}
+
+/*Mas estilos sin importancia*/
+.accordion__title:hover .course__name{
+    color: #edfcb0;
+    background-color:  #6d815a;
+}
+
+.accordion__title:hover .course__more{
+    border-top: 10px solid #edfcb0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+.description{
+    display: block;
+    height: 0; /*ojo*/
+    margin: 0;
+    text-align: justify;
+    overflow: hidden;
+    transition: all 400ms;
+}
+
+/*La chicha de la práctica, localizamos el titular del acordeón seleccionado por el cliente con el pseudoelemento :target, y localizamos los elementos que queremos que cambien, que en este caso, es que el <p> que contiene la descripción que está escrito con un height 0, tome su altura automática y coja un padding, tambien hacemos que cambie el color de la barra del título y que aparezcan y desaparezcan las flechitas de plegado, ojo, sin ir cambiando el display, que ya se que dijiste que eso consume muchos recursos. He jugado con el scale que además es compatible con transition
+
+PD: sorry por utilizar los estilos descendientes jeje, es la unica manera... ¿no?*/
+.accordion__title:target .description{
+    height: auto;
+    padding: 12px;
+}
+
+.accordion__title:target .course__name{
+    background-color:  #6d815a;
+    color: #edfcb0;
+}
+
+.accordion__title:target .course__more{ transform: scale(0);}
+.accordion__title:target .course__less{transform: scale(1);}
+
+/*
+Cosas a tener en cuenta: 
+1- Para desplegar un menu, basta con hacer click en cualquier parte de la barra del titulo del acordeon, sin embargo para cerrarlo, solo he conseguido hacerlo que sea haciendo click en la flechita (o abriendo otro), esto creo que lo podríamos pulir, haciendo las flechitas de otra manera como un svg en lugar de con bordes y jugar con el z-index y expandir el tamaño a toda la barra del título.
+2- Es cierto que al utilizar :target, obviamente, no podemos tener desplegados 2 titulares a la vez, pero personalmente a mi me mola más asi, ¿como lo ves tu?
+3- Me he entretenido en muchas tonterias como lo de hacer las flechitas con bordes y he escrito unas cuantas lineas de más, pero al fin y al cabo, la chicha de esto está en dar una altura 0 al contenedor a esconder y aplicar una altura auto al contenedor con el pseudoelemento target, lo veo como mega simple. Tu entiendes más de recursos y eso, pero a mi me da que esto es más liviano que con JS, además del ahorro de tiempo. Ya me dices que te parece. Un abrazo PD: en mi movil funciona jeje.
+*/
